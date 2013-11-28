@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html ng-app="CV">
+
+  <head>
+    <meta charset="utf-8" />
+    <title ng:bind-template="Martin Alix - {{labels.title}}">Martin Alix - Curriculum Vitae Étendu</title>
+    <script>document.write('<base href="' + document.location + '" />');</script>
+    <link href='//fonts.googleapis.com/css?family=Bree+Serif|Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <script data-require="angular.js@1.2.x" src="http://code.angularjs.org/1.2.2/angular.js" data-semver="1.2.2"></script>
+    <style>
+body{
+    font-family:'Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif;
+    font-size:13px; 
+}
+h1 
+{
+    font-size: 30px;
+}
+.malix {
+  float:right;text-align:right;
+  margin-top: 32px;
+}
+.lang {float: right;}
+h1 {
+  padding-top: 32px;
+}
+.title {
+    font-family:'Bree Serif',Georgia,serif;
+    font-size:24px; padding-bottom:8px; padding-top:16px;
+}
+.profile, .experience {width:97%; margin:auto;}
+.profile {border-top: solid 1px black;}
+.expertise {width:97%; border-top: solid 1px white; margin:auto;}
+.profile .desc {padding-left: 16px; font-size:14px;}
+.expertise table {border:solid 1px black; margin-left: 16px; margin-bottom: 16px; width:85%; }
+.expertise table td{border:solid 1px black; padding:4px;}
+.expertise table td.left {font-weight:bold; width: 25%;}
+.company {width: 100%; margin-bottom: 16px;}
+.company .name {text-align:center; font-size: 22px; padding-bottom:2px;}
+.project {margin-bottom: 24px; width:96%;}
+.project table {border:solid 1px black; margin-left: 16px; width:100%; margin-bottom:2px;}
+.project table td { width: 50%; padding-left:2px;}
+.project table td.project_title, .project table td.project_span {text-align: right; padding-right:6px;}
+.project table .line1 {font-size:15px; font-weight:bold;}
+.project table .line2 {font-size:14px; font-style: italic; }
+.project_description {padding-left:20px;}
+.project_realisations  {padding-left:20px; padding-top: 4px;}
+.project_env {padding-left:20px; padding-top: 4px;}
+.project_realisations .def {font-style: italic; text-decoration:underline}
+.project_env .def {text-decoration:underline}
+.project_realisations ul {list-style-type:circle}
+.unstyled {list-style-type:none;}
+.project_realisation {}
+.language
+{
+    font-size: 11px;
+    color:Blue;
+    position:absolute;
+    top:1px;
+    right:1px;
+    display:none;
+}      
+    </style>
+  </head>
+
+
+  <body ng-controller="MainCtrl">
+<div  class='lang'>[ <a ng-click="switch_lang()">{{LANG}}</a> ]</div>
+<h4 class='malix'><a href='mailto:resume@malix.com'>Martin Alix</a><br/>+1 514-515-3469</h4>
+<h1>{{labels.title}}</h1>
+    <ul class="unstyled">
+      <li ng-repeat="profile in profiles">
+          <div class="profile">
+              <div class="title">{{profile.title}}</div>
+              <div class="desc">{{profile.desc}}</div>
+          </div>
+      </li>
+      <li ng-repeat="expertise in expertises">
+          <div class="expertise">
+              <div class="title">{{expertise.title}}</div>
+              <table>
+                  <tr ng-repeat="item in expertise.items">
+                      <td class="left">{{item.title}}</td><td class="right">{{item.desc}}</td>
+                  </tr>
+              </table>
+          </div>
+      </li>
+      <li ng-repeat="experience in experiences">
+          <div class="experience">
+              <div class="title">{{experience.title}}</div>
+              <div class="company" ng-repeat="company in experience.companies">
+                  <div class="name">- {{company.name}} -</div>
+                  <div class="project" ng-repeat="project in company.projects">
+                      <table>
+                          <tr class="line1"><td class="project_client">{{project.client}}</td>
+                              <td class="project_title">{{project.title}}</td></tr>
+                          <tr class="line2"><td class="project_name">{{project.name}}</td><td class="project_span">{{project.span}}</td></tr>
+                      </table>   
+                      <div class="project_description">{{project.desc}}</div>                      
+                      <div class="project_realisations">
+                          <span class="def">{{labels.realisation}}</span> :
+                          <ul>
+                              <li class="project_realisation" ng-repeat="realisation in project.realisations">{{realisation}};</li>
+                          </ul>
+                      </div>                      
+                      <div class="project_env">
+                          <span class="def">{{labels.environment}}</span>: {{project.environment}}</div>                      
+                  </div>
+              </div>
+          </div>
+      </li>
+    </ul>
+    </body>
+<script>
+    var malix = function ($scope) {
+        var labels = {
+            fr: {
+                title: "Curriculum Vitae Étendu", realisation: "Réalisations", environment: "Environnement"
+            },
+            en: {
+                title: "Extended Resumé", realisation: "Accomplishments", environment: "Environment"
+            }
+
+        };
+
+        var profiles = {
+            fr: [
+                {
+                    title: "PROFILE DE CARRIÈRE",
+                    desc: "Architecte de solutions dynamique, team lead, coach et développeur, cherchant à aider ses clients à construire de meilleurs logiciels, aidé de plus de 15 années d'expérience internationale (incluant Canada, USA, Europe et Asie). Excellent communicateur, analytique et innovateur, parlant couramment le français, l'anglais et l'espagnol."
+                }
+            ]
+        };
+        var expertises = {
+            fr: [
+                {
+                    title: "EXPERTISE",
+                    items: [
+                        { title: "ROLES", desc: "Architecte Logiciel, Team Lead, Coach, Développeur sénior" },
+                        { title: "TECHNO", desc: "C#, Java, SOA< SOAP, SQL, Javascript, TDD, UML, Agile, HTML5, Node,  Rails, Ruby" },
+                        { title: "SECTEURS", desc: "Bancaire, Financier, Courtage, Transport, Télécommunications, Santé, Éducation, Actuariat, Gestion de contenu"}]
+                }
+            ]
+        };
+
+        var malix = {
+            fr: {
+                name: "MALIX CONSEIL INC.",
+                projects: []
+            },
+            en: {
+                name: "MALIX CONSULTING INC.",
+                projects: []
+            }
+        };
+
+        var cgi = {
+            fr: {
+                name: "GROUPE CGI INC.",
+                projects: []
+            },
+            en: {
+                name: "CGI GROUP INC.",
+                projects: []
+            }
+        };
+
+        var rda = {
+            fr: {
+                name: "CORPORATION RDA",
+                projects: []
+            },
+            en: {
+                name: "RDA CORPORATION",
+                projects: []
+            }
+        };
+
+        var malixsys = {
+            fr: {
+                name: "SYSTÈMES MALIX INC.",
+                projects: []
+            },
+            en: {
+                name: "MALIX SYSTEMS INC.",
+                projects: []
+            }
+        };
+
+        var asec = {
+            fr: {
+                name: "SYSTÈMES ASEC",
+                projects: []
+            },
+            en: {
+                name: "ASEC SYSTEMS",
+                projects: []
+            }
+        };
+
+        var isp = {
+            fr: {
+                name: "GROUPE ISP",
+                projects: []
+            },
+            en: {
+                name: "ISP GROUP",
+                projects: []
+            }
+        };
+
+        var experiences = {
+            fr: [
+                {
+                    title: "EXPÉRIENCE PROFESSIONNELLE",
+                    companies: [malix.fr, cgi.fr, rda.fr, malixsys.fr, asec.fr, isp.fr]
+                }
+            ],
+            en: [
+                {
+                    title: "PROFESSIONAL EXPERIENCE",
+                    companies: [malix.en, cgi.en, rda.en, malixsys.en, asec.en, isp.en]
+                }
+            ]
+        };
+
+        malix.fr.projects.push({
+            client: "aZOO.me",
+            title: "Co-fondateur",
+            name: "aZOO.me",
+            span: "Depuis Jan. 2011",
+            desc: "aZOO.me est une application web qui permet de gérer l'identité de ses animaux domestique. Le projet est réalisé en nuagique (cloud) à l'aide de AngularJS et de Parse.com, Stripe.com ainsi que Node.js", 
+            realisations: ["Définir, mettre en place et gérer l'environnement nuagique (cloud) de l'application", "Gérer une équipe multi-disciplinaire distribuée"], environment: "Node, ASP MVC 4, C#, javascript, angular.js, html5, css3, Stripe.com, Parse.com"
+        });
+
+        malix.fr.projects.push({
+            client: "Morgan Stanley",
+            title: "Team Lead",
+            name: "CVA Trader Workstation",
+            span: "Depuis Juil. 2012",
+            desc: "Le projet CVATW est une application WinForms permettant aux spécialistes du client de visualiser et gérer le balancement du risque financier.", realisations: ["Développer et maintenir une application critique portant sur des Actifs sous gestion de plus de $300 milliards", "Travailler en partie à distance avec une équipe multi-disciplinaire"], environment: "C#, WinForms, SOAP, SOA, Java, DB2, Test-Driven Development"
+        });
+
+        malix.fr.projects.push({
+            client: "Mouvement Desjardins",
+            title: "Team Lead",
+            name: "AccesD.Desjardins.com",
+            span: "Juil. 2010 - Juin 2012",
+            desc: "AccesD est le site web de Desjardins, la plus grande coopérative financière au Canada. Les 2 000 000 d'usagers contactent une application WebLogic/DB2 et patrimoniale. Les projets ont ajouté plusieurs fonctionalités de gestion du patrimoine: CELI, achat de fonds en ligne, envois de documents électroniques, etc.", realisations: ["Superviser et diriger une équipe de quatre développeurs, incluant coaching et aide pour les fonctionalités difficiles, guider et assurer la qualité du travail, notamment par revues de code et méthodologie TDD", "Sièger sur des comités de vigie, de sécurité et d'optimisation du développement", "Développer les requis et règles d'affaires pour l'achat en ligne des comptes d'épargne libres d'impôts (CELI)", "Introduire des pratiques et outils modernisés: Intégration Continue, TDD, Spring MVC", "Participer au cycle complet de développement des applications, incluant GUI et SOA"], environment: "Java 1.6, J2EE, Spring MVC, TDD, UML, Eclipse, SOA, JUnit, WebLogic 10.3.1"
+        });
+
+        malix.fr.projects.push({
+            client: "Banque Laurentienne",
+            title: "Architecte de Solution",
+            name: "Projet Tango",
+            span: "Jan. 2010 - Août 2010",
+            desc: "Le projet Tango consistait à l'implantation d'un système de gestion de la relation client (CRM) basé sur Microsoft Dynamics 4.0. A l'aide de leurs clients Outlook les usagers contactent un cluster de serveurs CRM roulant Windows Server et accédant des serveurs de base de données MS SQL Server 2005. L'intégration aux systèmes externes est réalisée au travers de web services accédés via SOAP.",
+            realisations: [
+"Proposer des solutions et alternative aux problématiques technologiques du projet et formuler les recommandations nécessaires aux différents comités;",
+"Coordonner le comité d'architecture du projet et agir à titre de facilitateur entre les différents intervenants techniques du projet.",
+"S'assurer que les orientations, positionnements et standards émis par la BLC et le comité d'architecture du projet sont respectés;",
+"S'assurer que les solutions qui sont proposées sont implantées de façon cohérente et que l'ensemble des sous projets se conforment aux directives technologiques;",
+"Définir ou valider l'aspect technologique des stratégies de livraison;",
+"S'assurer que la documentation et les livrables de projets respectent les décisions, attentes, orientations, normes et standards de la BLC;",
+"S'assurer du maintien et de la diffusion d'une vision technologique auprès du personnel de gestion de projets;"
+            ],
+            environment: "UML, Platforme .Net 3.5 SP1, Microsoft Dynamics 4.0, Test-Driven Development, Intergation Continue, SQL Server 2005"
+        });
+
+        cgi.fr.projects.push({
+            client: "DRC",
+            title: "Team Lead et Architecte",
+            name: "Modernisation IA / IC - Phase II",
+            span: "Déc. 2008 - Jan 2010",
+            desc: "Le projet Modernisation IA /IC - Phase II consistait à la fois en une application Web de service à la clientèle basée sur la plateforme .Net de Microsoft ainsi que sur leur environnement CMS Sharepoint 2007. Un Web Farm contacte des serveurs applicatifs Sharepoint roulant Windows Server et accédant des serveurs de base de données Oracle 10 et MS Sql Server 2005. L'intégration aux systèmes externes est réalisée au travers de web services accédés via SOAP.",
+            realisations: [
+            "Contribuer à à la spécification du système et à établir l'architecture technique et fonctionnelle du projet",
+"Communiquer avec le client afin de dévouvrir, analyser et spécifier les buts, l'étendue et la fonctionalité du projet",
+"Designer et Implementer des prototypes et preuves de concept afin de tester et aider à spécifier l'interface usager, les fonctionalités et les méthodologies de développement"],
+            environment: "UML, Platforme .Net 3.5 SP1 , Applications Web ASP.MVC, Sharepoint"
+        });
+
+        cgi.fr.projects.push({
+            client: "Vodafone NZ",
+            title: "Team Lead",
+            name: "Webup",
+            span: "Avr. 2008 - Nov. 2008",
+            desc: "Le projet WebUp consistait en une application de commerce électronique basée sur la plateforme ATG.Un Web Farm contacte des serveurs applicatifs HP roulant Weblogic 10 et accédant des serveurs de base de données Oracle 10. L'intégration aux systèmes externes est réalisée au travers de Gateway XML IBM DataPower accédé via SOAP et au travers de SFTP.",
+            realisations: ["Gérer l'équipe de développement du système d'intégration"
+, "Participer à la gestion et à la planification globale du projet"
+, "Développer le système d'extraction et de rapport des données financières"
+, "Assurer le support au déploiement de l'application en Nouvelle-Zélande"
+        ],
+            environment: "ATG eCommerce Platform, Weblogic 10.0, Java 1.5, J2EE, Eclipse 3.3, XML, SOAP, WSDL, jQuery, JSP"
+        });
+
+        cgi.fr.projects.push({
+            client: "Vodafone Global Enterprise",
+            title: "Architecte",
+            name: "VGE High Level Design Architecture",
+            span: "Jan. 2008 - Avr. 2008",
+            desc: "Ce projet de VGE a fourni l'architecture d'un portail où les clients, les employés et les associés de Global Enterprise peuvent obtenir une fonctionnalité spécifique et personnalisée au travers d'une expérience d'utilisateur uniforme, cohérente, fonctionnelle et facilement soutenue et qui soit conforme à l'image de marque de Vodafone ainsi qu'aux directives d'UE. Le portail permettra à Global Enterprise d'offrir plus facilement, et au moment opportun, des capacités en ligne spécifiquement adaptées aux besoins spécifiques de ses clients.",
+            realisations: ["Spécifier un design à haut niveau pour l'Extranet de Global Enterprise"
+, "Fournir une compréhension détailée de la situation et des applications existantes de Global Enterprise Applications, ainsi que du comment de leur integration"
+, "Définir l'architecture de la solution, en fournissant les spécifications clé, de manière détaillée afin de pouvoir guider le développement et assurer la constance de l'éventuelle expérience usager"
+, "Présenter un plan d'action progressif, agressif et réalisable pour le déploiement de cette solution de 1 300 000 €"
+            ],
+            environment: "Enterprise Portal, Distributed Systems, Oracle 10g, Sun Access Manager, Weblogic Application Server"
+        });
+
+        cgi.fr.projects.push({
+            client: "Vodafone Germany",
+            name: "Vodafone DE - Search",
+            title: "Développeur Logiciel Senior",
+            span: "Déc. 2007 - Jan. 2008",
+            desc: "Le projet Search de Vodafone DE fait parti d'une application Web construite à l'aide de la plateforme de commerce életronique de ATG roulant sur de serveurs applicatifs Weblogic et accédant à des bases de données Oracle ainsi qu'un engin de recherche Exorbyte.",
+            realisations: ["Développer des fonctionalités de recherche sous des contraintes de temps strictes, en utilisant des technologies jusque-là peu connues",
+"Rechercher et encapsuler des technologies nouvelles et non-documentées et les rendre disponibles de manière concise et facile à maintenir et réutiliser",
+"Fournir aide et mentoring aux resources plus juniors de l'équipe"
+        ],
+            environment: "Java J2EE, jQuery, Weblogic 10.0, Oracle 10g, Exorbyte, ATG eCommerce 2007, Eclipse 3.3, HTML, CSS"
+        });
+
+        cgi.fr.projects.push({
+            client: "Bombardier Recreational Products",
+            name: "BOSSWeb",
+            title: "Architecte et chef d'équipe",
+            span: "Nov. 2006 - Déc. 2007",
+            desc: "Le projet BOSSWeb est une application de type Extranet roulant sur des serveurs IIS. Derrière ce Web Farm, des serveurs applicatifs sont contactés via une architecture WCF. La gestion documentaire sous-jacente est assumée par des serveurs Sharepoint 2007. L'intégration avec les systèmes SAP existants est fournie grace à des connecteurs XI. Les autres données sont stockées sous SQL Server 2005. ",
+            realisations: ["Contribuer à la spécification et l'établissement de l'architecture technique du projet", "Superviser et gérer les activités de développement d'une équipe d'une douzaine de personnes", "Guider, supporter et participer à l'élaboration de l'implémentation et des test unitaires afférents", "Concevoir et développer les tests de charge Web"
+            ],
+            environment: ".NET 3.0 SOA Web site, Windows Communication Foundation, Microsoft Enterprise Library 3.0, SQL 2005 & 2000 server, Windows Communication Foundation, Enterprise Library, Windsor Castle Framework, Sharepoint 2007 document management, Visual Studio Team System"
+        });
+
+        rda.fr.projects.push({
+            client: "Watson Wyatt",
+            name: "Paradygm Shift",
+            title: "Ingénieur Logiciel Sénior",
+            span: "Août 2003 - Nov. 2006",
+            desc: "Paradygm Shift est une application de type «WinForms» accédée par plusieurs milliers de consultants de par le monde grâce à un groupe de serveurs de type Terminal Services. L'application procède au calcul des «Actuarial Liabilities» à l'aide d'une ferme de serveurs roulant un programme custom de type GRID écrit en VB.NET sous Visual Studio 2005. La fonctionnalité de calcul principale provient d'une traduction de code source FORTRAN. Les données acquises lors du calcul (qui peut porter sur plus de 300000 employés) sont stockées sous SQL Server 2005.",
+            realisations: [
+"Développer une application de gestion des passifs actuariele distribuée internationalement", "Aider le design d'un engin de calcul actuariel distribué capable de supporter plus de 300000 bénéficiaires", "Port d'une ancienne application critique redigée en Fortran"
+            ],
+            environment: "C#, VB.NET, SQL Server 2005, Grid Computing, Terminal Services, Custom Controls, Crystal Reports, Fortran"
+        });
+
+        rda.fr.projects.push({
+            client: "Eclipsys",
+            name: "Access Manager",
+            title: "Développeur Sénior",
+            span: "Déc. 2002 - Sep. 2003",
+            desc: "Access Manager est une application de type «WinForms» permettant la gestion de l'enregistrement des patients et la gestion de la pharmaceutique de centres hospitaliers. Le système stock ses données sous SQL Server 2002 et accède à plusieurs systèmes propriétaires du centre. L'interface usagers comporte notamment une architecture de type «plug-in». La criticalité de l'application ne peut être trop soulignée.", realisations: ["Développer une application multi-tiers d'enregistrement hospitalier intelligent", "Désigner le framework et la configuration de l'application", "Oeuvrer sous des échéances très strictes sur des systèmes critiques à la vie"], environment: "C#, VB.NET, SQL 2002, Plug-ins, Life-critical"
+        });
+
+        rda.fr.projects.push({
+            client: "MortgageRamp",
+            name: "Deal Central",
+            title: "Développeur Sénior",
+            span: "Sep. 2002 - Déc. 2002",
+            desc: "La partie de l'application codée constitue en un système automatisé d'importation de données créé en C# et stockant les données sous SQL Server 2002.", realisations: ["Développer une application Web critique de Prêts Commerciaux", "S'assurer de l'intégrité des données"], environment: "C#, SQL 2002, Scheduling"
+        });
+
+        rda.fr.projects.push({
+            client: "Raytheon",
+            name: "Quester Debt Management System",
+            title: "Développeur Sénior",
+            span: "Jan. 2002 - Sep. 2002",
+            desc: "Quester constituait le système de gestion des prèts étudiants du Département de l'Éducation des États-Unis. Codée en Java 1.4, the système roulait sur des serveurs Weblogic, avec une interface usager Swing et stockait ses données dans une base de données Oracle.", realisations: ["Développer des Enterprise Java Beans et des procédures stockées Oracle pour permettre le sockage de l'état de l'application", "Maintenir la responsabilité du GUI de l'application ainsi que le framework employé par l'équipe pour créer le GUI.", "Designer et développer le look-and-feel des contrôles GUI"], environment: "JRE 1.4, J2EE 2.0, Weblogic, Oracle, Swing, Eclipse"
+        });
+
+        rda.fr.projects.push({
+            client: "Gnosis Knowledge Management",
+            name: "System",
+            title: "Développeur",
+            span: "Juil. 2001 - Déc.  2001",
+            desc: "Gnosis est une application de type Web livrée par des serveurs IIS roulant une application ASP.NET rendant des données stockées sous SQL Server 2002 ainsi que sous Sharepoint.", realisations: ["Développer une application de gestion et partage du savoir utilisant le framework .NET", "Aider au design d'une solution permettant l'accès à un serveur Sharepoint"], environment: "VB.NET, SQL 2002, SharePoint, ASP.NET"
+        });
+
+        rda.fr.projects.push({
+            client: "Dell",
+            name: "Public Watch",
+            title: "Développeur",
+            span: "Mai 2001 - Juil. 2001",
+            desc: "Public Watch est le système d'automatisation de la force de vente de Dell et constituait en une application de type Web livrée par des serveurs IIS roulant une application ASP.NET simple qui utilise XSL pour rendre des templates dynamiques XML représentant des données stockées sous SQL Server 2002.", realisations: ["Développer des pages ASP ainsi que des groupes XSL/XML de transformation/templates", "Développer un générateur de code basé sur la lecture automatisée des spécifications fonctionelles"], environment: "VB 6.0, SQL 2000, IIS, XML, XSL"
+        });
+
+        rda.fr.projects.push({
+            client: "AnnuityNet",
+            name: "Online Annuity Management System",
+            title: "Développeur",
+            span: "Nov. 2000 - Mai 2001",
+            desc: "Online Annuity Management System est l'application de gestion financière B2B et B2C de AnnuityNet déservie par des serveurs IIS et construite à l'aide d'un système VB 6 produisant des pages HTML avec des transformation/templates XSL/XML et stockant des données sous SQL Server 2002.", realisations: ["Développer des templates/transformations", "Développer des procdures stockées"], environment: "VB 6.0, SQL 2000, IIS, XML, XSL"
+        });
+
+        malixsys.fr.projects.push({
+            client: "Montrusco Bolton",
+            name: "IT",
+            title: "Analyste / Programmeur",
+            span: "Sep. 1998 - Nov. 2000",
+            desc: "Plusieurs applications furent développées en VB 5 et VB 6 afin de supporter une infrastructure et des systèmes «mainframe» de gestion de portefeuilles ainsi que pour stocker et accéder à des bases de données roulant sous SQL Server.", realisations: ["Responsable de l'analyse et du désign d'applications de gestion de portefeuille et de rapports financiers", "Redesign et implémentation de l'Intranet de la compagnie", "Oeuvrer au sein de projets contractuels rapides et autonomes", "Intégration d'applications avec Office et systèmes centraux"], environment: "VB6, VB5, SQL Server, Mainframes, ASP, HTML"
+        });
+
+        asec.fr.projects.push({
+            client: "Applied Secure Electronic Commerce Systems",
+            name: "EDI Manager",
+            title: "Programmeur/Analyste",
+            span: "Jan. 1997  - Sep. 1998",
+            desc: "L'application, de type «Winforms», consistait en un système de formulaires électroniques EDI codé en VB 5 et stockant ses données sous Access. ", realisations: ["Participer à l'analyse et au désign d'applications d'échange de données électronique distribuées à des milliers de clients", "Effectuer l'analyse, le désign et le déploiement de l'Intranet et des sites Web de la compagnie", "Gérer des projets complets et évoluer dans le contexte d'horaires serrés"], environment: "EDI, VB5, VB4, SQL, Access, XML, HTML, Ansi X.12 EDI"
+        });
+
+        isp.fr.projects.push({
+            client: "ISP",
+            name: "Courrier Management System",
+            title: "Programmeur/Analyste",
+            span: "Sep. 1995 - Jan. 1997",
+            desc: "L'application consistait en un système de prise d'appels et de dispatching en temps réel codé en Clipper et accédant à une bade de données DBase IV.", realisations: ["Participer à l'analyse, au désign et au développement d'applications de prise d'appels et de dispatching dans l'industrie du transport",
+"Analyser et développer des modules de communication, de prise d'appels à distance, de facsimilés automatisés, de messagerie numérique et d'identification d'appels",
+"Faire le désign et l'implémentation de l'interface Internet de l'application", "Superviser 3 programmeurs juniors"], environment: "Clipper, DBase IV, Netware, Serial Comms, HTML, CGI, X.25"
+        });
+
+        malix.en.projects.push({
+            client: "aZOO.me",
+            title: "Co-founder",
+            name: "aZoo.me",
+            span: "Since Jan 2011",
+            desc: "aZOO.me is a web aplication that enables animal identification management. This cloud-based project is built with AngularJS, Parse.com, Stripe.com as well a running on a Node.js server", 
+            realisations: ["Define, implement and manage the application's cloud-based environement", 
+            "Manage a distributed multi-disciplinary team"], environment: "AngularJS, Node, ASP MVC 4, C#, javascript, html5, css3, Stripe.com, Parse.com"
+        });
+
+        malix.en.projects.push({
+            client: "Morgan Stanley",
+            title: "Team Lead",
+            name: "CVA Trader Workstation",
+            span: "Since Jul 2012",
+            desc: "The CVA-TW project is a WinForms application allowing traders to visualize and manage the Firm’s Counterparty Risks.", realisations: ["Develop and maintain a mission-critical application managing over 300 billion$ in assets",
+            "Work remotely with a global multi-disciplinary team"], environment: "C#, WinForms, SOAP, SOA, Java, DB2, Test-Driven Development"
+        });
+
+        malix.en.projects.push({
+            client: "Mouvement Desjardins",
+            title: "Team Lead",
+            name: "AccesD.Desjardins.com",
+            span: "Jul 2010 - Jun 2012",
+            desc: "AccesD is the web site of Desjardins, the largest financial cooperative group in Canada. The 2,000,000 users contact a multi-tiered application consisting SunOne and WebLogic Servers accessing DB2 and legacy database servers. The project used TDD & Agile Development to add a J2EE-based Online Funds Purchasing Site.", 
+            realisations: ["Supervised and lead a team of four developers by coaching and aiding with difficult functionalities, providing guidance and ensuring work quality, notably through code reviews and TDD methodology"
+            ,"Introduced and coached modernized tools and methodologies: Continuous Integration, TDD, Spring MVC"
+, "Served on various technological guidance and infrastructure evolution commitees"], environment: "C#"
+        });
+
+        malix.en.projects.push({
+            client: "Laurentian Bank",
+            title: "Solutions Architect",
+            name: "Tango Project",
+            span: "Jan 2010 - Aug 2010",
+            desc: "The Tango project consisted in implementing a Client Relationship Management system (CRM) based on Microsoft’s Dynamics 4.0. Using their Outlook clients, the users contact a cluster of CRM servers running Windows Server and accessing MS Sql Server 2005 database servers.",
+            realisations: ["Proposed solutions and alternatives to the project’s technological problems and formulate the necessary recommendations to the various comities;"
+, "Coordinated the project’s architectural comity and act as a facilitator between the various technical stake holders of the project;"
+, "Ensured that the orientations, positions and standards promulgated by the Bank and the project’s architectural comity are respected;"
+, "Ensured that the proposed solutions are coherently implanted and that all the sub-projects conform to the technical orientations;"
+, "Defined and validated the technological aspects of the delivery strategies"
+, "Ensured the presence of a shared coherent technological vision throughout the project management team;"
+, "Responsable for progress status reports for the architecture group;"],
+            environment: "UML, .Net 3.5 SP1 Platform, Microsoft Dynamics 4.0, Test-Driven Development, Intergation Continue, SQL Server 2005"
+        });
+
+        cgi.en.projects.push({
+            client: "DRC",
+            title: "Team Lead et Architecte",
+            name: "Modernisation IA / IC - Phase II",
+            span: "Dec 2008 - Jan 2010",
+            desc: "The IA / IC Modernization - Pahes II project consisted of an Client Services web application based on Microsoft's .Net platform and their Sharepoint CMS environment. A web farm contacts Windows Server hosted Sharepoint Application servers accessing Oracle 10 and MS SQL Server 2005 Database servers. Integration with external systems runs through XML Web Services accessed via SOAP.", 
+            realisations: ["Contributed to the system specification and established the project's technical and functional architecture"
+, "Communicated with the client in order to discover, analyze and specify the project's goals, scope and functionality"
+, "Designed and Implemented prototypes and proof-of-concepts to test and help specify the user interface, functionality and development methodologies"], environment: "UML, .Net 3.5 SP1 Platform, ASP.MVC Web Applications, Sharepoint 2007, Test-Driven Development, Continuous Intergation, jQuery, Oracle 10j, SQL Server 2005"
+        });
+
+        cgi.en.projects.push({
+            client: "Vodafone NZ",
+            title: "Team Lead",
+            name: "Webup",
+            span: "Apr 2008 - Nov 2008",
+            desc: "The WebUp project consisted of an eCommerce web application based on ATG's world leading platform. A web farm contacts HP hosted Weblogic 10 Application servers accessing Oracle 10 Database servers. Integration with external systems runs through an IBM DataPower XML Gateway accessed via SOAP and through SFTP.", 
+            realisations: ["Managed the Integration System development team"
+, "Participated in the management and planning of the entire project"
+, "Developed the Financial Extraction and Reporting System"
+, "Supported the deployment of the application in New-Zealand"], environment: "ATG eCommerce Platform, Weblogic 10.0, Java 1.5, Eclipse 3.3, XML, SOAP, WSDL, jQuery, JSP"
+        });
+
+        cgi.en.projects.push({
+            client: "Vodafone Global Enterprise",
+            title: "Architecte",
+            name: "VGE High Level Design Architecture",
+            span: "Jan 2008 - Apr 2008",
+            desc: "This Vodafone Global Enterprise (VGE) project provided the architecture for a Portal where VGE customers, employees and partners can obtain specific and personalised functionality through a seamless, consistent, functional and easily supported User experience that complies with Vodafone branding and UE guidelines. It will enable Global Enterprise to more easily offer and, in a timely fashion, deliver an online capability specifically tailored to the requirements of individual customers.",
+            realisations: ["Specify a coherent high-level design for the Global Enterprise Extranet"
+, "Provide a detailed understanding of the existing Global Enterprise Situation and Applications, and how they must be integrated"
+, "Define the architecture of the solution, providing key specifications, in enough detail to guide development and ensure the consistency of the eventual User experience"
+, "Present a progressive, aggressive, and feasible roadmap for deployment of this €1,300,000 solution"], 
+environment: "Enterprise Portal, Distributed Systems, Oracle 10g, Sun Access Manager, Weblogic Application Server"
+        });
+
+        cgi.en.projects.push({
+            client: "Vodafone Germany",
+            name: "Vodafone DE - Search",
+            title: "Développeur Logiciel Senior",
+            span: "Dec 2007 - Jan 2008",
+            desc: "Vodafone DE's Search project is a Web Application built using ATG's eCommerce platform and running on Weblogic Application servers accessing Oracle databases and an Exorbyte Search Engine.", 
+            realisations: ["Developed seasrch functionality under strict time constraints, using hitherto unknown technologies"
+, "Researched and Encapsulated new and undocumented technologies and made them available in a concise, easy to maintain and reuse manner"
+, "Mentored and helped other, more junior, team members"
+], environment: "Java J2EE, jQuery, Weblogic 10.0, Oracle 10g, Exorbyte, ATG eCommerce 2007, Eclipse 3.3, HTML, CSS"
+        });
+
+        cgi.en.projects.push({
+            client: "Bombardier Recreational Products",
+            name: "BOSSWeb",
+            title: "Architecte et chef d'équipe",
+            span: "Nov 2006 - Dec 2007",
+            desc: "The BOSSWeb project consisted of an extranet-type application running on IIS servers. Behind this Web farm, application servers are contacted using a WCF architecture. The underlying document management was assumed by Sharepoint 2007. Integration with SAP systems was provided by XI connectors; other data was stored under SQL Server 2005.", 
+            realisations: ["Contributed to the system specification and establishing the project's technical architecture"
+, "Supervised and managing the development activities of a twelve person team"
+, "Guided, supported and participated in the development of the implementation and the underlying unit tests"
+, "Conceived and developed the application's Web load testing"
+], environment: ".NET 3.0 SOA Web site, Windows Communication Foundation, Microsoft Enterprise Library 3.0, SQL 2005 & 2000 server, Windows Communication Foundation, Enterprise Library, Windsor Castle Framework, Sharepoint 2007 document management, Visual Studio Team System"
+        });
+
+        rda.en.projects.push({
+            client: "Watson Wyatt",
+            name: "Paradygm Shift",
+            title: "Ingénieur Logiciel Sénior",
+            span: "Août 2003 - Nov 2006",
+            desc: "Paradygm Shift was a «WinForms»-type application accessed by several thousand consultants worldwide through a group of Terminal Services servers. The system calculated actuarial liabilities at a server farm running a grid-type custom-built program written in VB.NET under Visual Studio 2005. The principal calculation functionality came from the translation of a FORTRAN code base. The data acquired during the processing (which could span 300,000 employees) was stored under SQL Server 2005.", 
+            realisations: [ "Developed an internationally distributed actuarial liability management application"
+, "Helped to design a grid-distributed actuarial calculation engine handling 300,000+ beneficiaries"
+, "Ported an old mission-critical application written in Fortran"
+], environment: "C#, VB.NET, SQL Server 2005, Grid Computing, Terminal Services, Custom Controls, Crystal Reports, Fortran"
+        });
+
+        rda.en.projects.push({
+            client: "Eclipsys",
+            name: "Access Manager",
+            title: "Développeur Sénior",
+            span: "Dec 2002 - Sep 2003",
+            desc: "Access Manager was a «WinForms»-type application enabling patient admission management and health centre pharmaceutical operations management. The system stored its data under SQL 2002 and accessed many of the Centres' proprietary systems. The user interface was notably composed of a «plug-in»-type architecture. The criticality of the application could not be overstated.", 
+            realisations: ["Developed an intelligent multi-tiered client hospital registration application"
+, "Designed the application framework and configuration"
+, "Worked under stringent deadlines on life-critical systems"
+], environment: "C#, VB.NET, SQL 2002, Plug-ins, Life-critical"
+        });
+
+        rda.en.projects.push({
+            client: "MortgageRamp",
+            name: "Deal Central",
+            title: "Développeur Sénior",
+            span: "Sep 2002 - Dec 2002",
+            desc: "The coded application consisted of an automated data import system created in C# that stored its data under SQL Server 2002.", 
+            realisations: ["Developed a mission-critical, Web-based commercial lending application","Ensured the integrity of the data"], environment: "C#, SQL Server 2002, Scheduling"
+        });
+
+        rda.en.projects.push({
+            client: "Raytheon",
+            name: "Quester Debt Management System",
+            title: "Développeur Sénior",
+            span: "Jan 2002 - Sep 2002",
+            desc: "Quester was the US Department of Education's multi-tiered student loan management application. Coded in Java 1.4, the system ran on a WebLogic server with a Swing front-end that stored its data in an Oracle database.", 
+            realisations: ["Developed Enterprise Java Beans and Oracle stored procedures to enable application state storage"
+, "Maintained responsibility for the application GUI and the framework employed by the team to create it"
+, "Designed and developed the appearance of the GUI controls"
+], environment: "JRE 1.4, J2EE 2.0, Weblogic, Oracle, Swing, Eclipse"
+        });
+
+        rda.en.projects.push({
+            client: "Gnosis Knowledge Management",
+            name: "System",
+            title: "Développeur",
+            span: "Jul 2001 - Dec  2001",
+            desc: "Gnosis was a Web-type application delivered by IIS servers running an ASP.NET application rendering data stored under SQL Server 2002 and Sharepoint", 
+            realisations: ["Developed a knowledge sharing and management application using .NET framework","Helped design a solution accessing the Microsoft SharePoint server"], 
+            environment: "C#, VB.NET, SQL 2002, SharePoint, ASP.NET"
+        });
+
+        rda.en.projects.push({
+            client: "Dell",
+            name: "Public Watch",
+            title: "Développeur",
+            span: "Mai 2001 - Jul 2001",
+            desc: "Public watch was Dell's Sales Force automation system, which consisted of a Web-type application delivered by IIS servers running a simple ASP.NET application using XSL to render dynamic XML templates representing data stored under SQL Server 2002", 
+            realisations: ["Developed ASP Web pages and XSL/XML transforms/templates", "Developed an automated code stub generator based on functional specification document parsing"], 
+            environment: "VB 6.0, SQL 2000, IIS, XML, XSL"
+        });
+
+        rda.en.projects.push({
+            client: "AnnuityNet",
+            name: "Online Annuity Management System",
+            title: "Développeur",
+            span: "Nov 2000 - Mai 2001",
+            desc: "Online Annuity Management System was AnnuityNet's Web-based financial B2C and B2B application served by IIS servers and built with a VB6 back-end XML/XSL serving HTML by using XML/XSL templates/transformations and storing its data in SQL Server 2002", 
+            realisations: ["Developed XML/XSL templates/transforms", "Developed stored procedures"], environment: "VB 6.0, SQL 2000, IIS, XML, XSL"
+        });
+
+        malixsys.en.projects.push({
+            client: "Montrusco Bolton",
+            name: "IT",
+            title: "Analyste / Programmeur",
+            span: "Sep 1998 - Nov 2000",
+            desc: "Various multi-tiered applications were developed in VB5 and VB6 to support a complete porfolio management infrastructure and systems running on mainframe computers, and to store and access SQL Server databases", 
+            realisations: ["Analyzed and designed mission-critical, sensitive, multi-tiered financial reporting/portfolio management applications"
+, "Interfaced with financial analysts and other business users to extract application requirements"
+, "Redesigned and implemented company Intranet"
+, "Worked on autonomous, contractual-based projects"
+, "Integrated applications with Office and Mainframe"
+], environment: "VB6, VB5, SQL Server, Mainframes, ASP, Javascript, HTML, Mainframes"
+        });
+
+        asec.en.projects.push({
+            client: "Applied Secure Electronic Commerce Systems",
+            name: "EDI Manager",
+            title: "Programmeur/Analyste",
+            span: "Jan 1997  - Sep 1998",
+            desc: "The application was a «Winforms»-type EDI forms management system coded in VB5 that stored its data in Access databases", 
+            realisations: ["Participated in the analysis and design of Electronic Data Interchange (EDI) applications distributed to thousands of clients"
+, "Performed the analysis, design and deployment of the company's Intranet and Web sites"
+, "Managed complete projects"
+, "Developed under tight deadlines"
+], environment: "VB5, VB4, SQL, Access, XML, HTML, Ansi X.12 EDI"
+        });
+
+        isp.en.projects.push({
+            client: "ISP",
+            name: "Courrier Management System",
+            title: "Programmeur/Analyste",
+            span: "Sep 1995 - Jan 1997",
+            desc: "The application was a real-time call taking and dispatching system coded in Clipper that accessed a DBase IV database", 
+            realisations: [ "Participated in the analysis, design and development of call-taking and dispatching applications in the transport industry"
+, "Analyzed and developed communication modules, remote call-taking modules, automated faxing modules, paging modules, caller-ID modules, etc."
+, "Designed and implemented the application's Internet interface"
+, "Supervised three junior programmers"], environment: "Clipper, DBase IV, Netware, Serial Comms, HTML, CGI, X.25"
+        });
+
+        var ret = {};
+
+        ret.bind_fr = function () {
+            $scope.labels = labels.fr;
+            $scope.profiles = profiles.fr;
+            $scope.expertises = expertises.fr;
+            $scope.experiences = experiences.fr;
+        };
+
+        ret.bind_en = function () {
+            $scope.labels = labels.en;
+            $scope.profiles = profiles.en;
+            $scope.expertises = expertises.en;
+            $scope.experiences = experiences.en;
+        };
+
+        return ret;
+    };
+var app = angular.module('CV', []);
+
+app.controller('MainCtrl', function($scope) {
+  $scope.LANG = 'français';
+  $scope.switch_lang =  function() {
+    if($scope.LANG == 'english')  {
+      $scope.LANG = 'français';
+      malix($scope).bind_en();
+    } else {
+      $scope.LANG = 'english';
+      malix($scope).bind_fr();
+    }
+  }
+  $scope.switch_lang();
+});
+</script>
+</html>
